@@ -174,7 +174,7 @@ return {
           highlight_groups = {
             Normal = { bg = "#000000" },      -- Set background to pure black
             NormalFloat = { bg = "#000000" }, -- Set floating window background to pure black
-            -- FloatBorder = { bg = "#000000" }, -- Set floating window border background to pure black
+            Visual = { bg = "#ffffff", fg = "#ffffff", bold = true },
           },
 
           before_highlight = function(group, highlight, palette)
