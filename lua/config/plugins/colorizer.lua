@@ -1,5 +1,6 @@
 return {
   'echasnovski/mini.hipatterns',
+  enabled = false,
   version = false,
 
   opts = function()

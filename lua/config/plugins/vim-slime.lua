@@ -2,6 +2,7 @@ return {
   { -- send code from python/r/qmd documets to a terminal or REPL
     -- like ipython, R, bash
     'jpalardy/vim-slime',
+    enabled = true,
     dev = false,
     init = function()
       vim.b['quarto_is_python_chunk'] = false

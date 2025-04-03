@@ -1,7 +1,7 @@
 -- this is a highlighter which should help with code cell highlighting
 return { -- highlight markdown headings and code blocks etc.
   'lukas-reineke/headlines.nvim',
-  enabled = false,
+  enabled = true,
   dependencies = 'nvim-treesitter/nvim-treesitter',
   config = function()
     require('headlines').setup {
