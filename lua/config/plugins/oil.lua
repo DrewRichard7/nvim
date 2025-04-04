@@ -16,7 +16,7 @@ return {
         },
       }
       -- open parent directory in floating window
-      vim.keymap.set("n", "\\", require("oil").toggle_float, { desc = "toggle floating oil" })
+      vim.keymap.set("n", "oil", require("oil").toggle_float, { desc = "toggle floating oil" })
     end
   },
 }

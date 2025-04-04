@@ -23,10 +23,10 @@ local wk = require("which-key")
 local ms = vim.lsp.protocol.Methods
 
 -- sets the color of floating window borders
-vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#00CC96", bg = "NONE" })
+vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#00DD96", bg = "NONE" })
 -- another good option: "#A5DCFF"
 -- sets border color of floating telescope windows
-vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = "#00CC96", bg = "NONE" })
+vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = "#00DD96", bg = "NONE" })
 
 
 -- line number options
