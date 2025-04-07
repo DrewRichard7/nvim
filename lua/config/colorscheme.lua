@@ -41,7 +41,7 @@ return {
   {
     'catppuccin/nvim',
     name = 'catppuccin',
-    enabled = false,
+    enabled = true,
     lazy = false,    -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
@@ -221,8 +221,8 @@ return {
   {
     {
       'rebelot/kanagawa.nvim',
-      enabled = true,
-      lazy = false,  -- Or false if you load it immediately
+      enabled = false,
+      lazy = false,    -- Or false if you load it immediately
       priority = 1000, -- Load early
       config = function()
         require('kanagawa').setup({
@@ -234,20 +234,20 @@ return {
           keywordStyle = { italic = true },
           statementStyle = { bold = true },
           typeStyle = {},
-          transparent = false, -- Explicitly set background to non-transparent
-          dimInactive = false, -- Corrected key
+          transparent = false,   -- Explicitly set background to non-transparent
+          dimInactive = false,   -- Corrected key
           terminalColors = true, -- Corrected key
-          theme = "wave",      -- Or "dragon", "lotus" - choose your preferred variant
-          background = {       -- Force dark theme regardless of vim.o.background
-            dark = "wave",     -- Match the theme name above
-            light = "lotus",   -- Fallback for light mode (won't be used if dark is forced)
+          theme = "wave",        -- Or "dragon", "lotus" - choose your preferred variant
+          background = {         -- Force dark theme regardless of vim.o.background
+            dark = "wave",       -- Match the theme name above
+            light = "lotus",     -- Fallback for light mode (won't be used if dark is forced)
           },
-          colors = {           -- Keep your gutter setting
-            palette = {},      -- We use overrides below, so keep this empty or remove
+          colors = {             -- Keep your gutter setting
+            palette = {},        -- We use overrides below, so keep this empty or remove
             theme = {
               all = {
                 ui = {
-                  bg_gutter = "none"       -- Make gutter transparent to use Normal bg
+                  bg_gutter = "none" -- Make gutter transparent to use Normal bg
                 }
               }
             }
@@ -333,7 +333,7 @@ return {
         RRGGBB = true,       -- #RRGGBB hex codes
         names = true,        -- "Name" codes like Blue or blue
         RRGGBBAA = true,     -- #RRGGBBAA hex codes
-        AARRGGBB = false,    -- 0xAARRGGBB hex codes
+        AARRGGBB = true,     -- 0xAARRGGBB hex codes
         rgb_fn = false,      -- CSS rgb() and rgba() functions
         hsl_fn = false,      -- CSS hsl() and hsla() functions
         css = false,         -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB

@@ -49,7 +49,7 @@ vim.opt.showmode = false
 vim.opt.cursorline = true
 
 -- minimal number of screen lines to keep below the cursor
-vim.opt.scrolloff = 15
+vim.opt.scrolloff = 10
 
 -- show dialog for confirmation of unsaved changes
 vim.opt.confirm = true
@@ -65,8 +65,8 @@ vim.g.moonflyNormalFloat = true
 vim.keymap.set("i", "jk", "<ESC>", { desc = "exit insert mode with jk" })
 
 -- center cursor on scroll
-vim.keymap.set({ "n", "v" }, "j", "jzz", { desc = "center cursor on vertical scroll" })
-vim.keymap.set({ "n", "v" }, "k", "kzz", { desc = "center cursor on vertical scroll" })
+-- vim.keymap.set({ "n", "v" }, "j", "jzz", { desc = "center cursor on vertical scroll" })
+-- vim.keymap.set({ "n", "v" }, "k", "kzz", { desc = "center cursor on vertical scroll" })
 
 -- center cursor on half page scroll
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "center cursor on half page scroll" })
@@ -126,7 +126,7 @@ vim.keymap.set('n', '<leader>tf', '<cmd>tabnew %<CR>', { desc = 'Open current bu
 
 
 local nmap = function(key, effect)
-  vim.keymap.set("n", key, effect, { silent = true, noremap = true })
+    vim.keymap.set("n", key, effect, { silent = true, noremap = true })
 end
 
 -- Move between windows using <ctrl> direction
@@ -146,20 +146,20 @@ vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" }
 -- --AUTOCOMMANDS---------------------------------------------------
 -- highlight text on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
-  desc = "Highlight when yanking (copying) text",
-  group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
+    desc = "Highlight when yanking (copying) text",
+    group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
+    callback = function()
+        vim.highlight.on_yank()
+    end,
 })
 
 -- remove line numbers in terminal
 vim.api.nvim_create_autocmd("TermOpen", {
-  desc = "remove line numbers in terminal",
-  group = vim.api.nvim_create_augroup("kickstart-term", { clear = true }),
-  callback = function()
-    vim.wo.number = false
-  end,
+    desc = "remove line numbers in terminal",
+    group = vim.api.nvim_create_augroup("kickstart-term", { clear = true }),
+    callback = function()
+        vim.wo.number = false
+    end,
 })
 
 -- below are some quarto specific commands and functions
@@ -174,23 +174,23 @@ vim.g["reticulate_running"] = false -- This sets the global variable reticulate_
 --- and will handle python code via reticulate when sent
 --- from a python chunk.
 local function send_cell()
-  if vim.b["quarto_is_r_mode"] == nil then
-    vim.fn["slime#send_cell"]()
-    return
-  end
-  if vim.b["quarto_is_r_mode"] == true then
-    vim.g.slime_python_ipython = 0
-    local is_python = require("otter.tools.functions").is_otter_language_context("python")
-    if is_python and not vim.b["reticulate_running"] then
-      vim.fn["slime#send"]("reticulate::repl_python()" .. "\r")
-      vim.b["reticulate_running"] = true
+    if vim.b["quarto_is_r_mode"] == nil then
+        vim.fn["slime#send_cell"]()
+        return
     end
-    if not is_python and vim.b["reticulate_running"] then
-      vim.fn["slime#send"]("exit" .. "\r")
-      vim.b["reticulate_running"] = false
+    if vim.b["quarto_is_r_mode"] == true then
+        vim.g.slime_python_ipython = 0
+        local is_python = require("otter.tools.functions").is_otter_language_context("python")
+        if is_python and not vim.b["reticulate_running"] then
+            vim.fn["slime#send"]("reticulate::repl_python()" .. "\r")
+            vim.b["reticulate_running"] = true
+        end
+        if not is_python and vim.b["reticulate_running"] then
+            vim.fn["slime#send"]("exit" .. "\r")
+            vim.b["reticulate_running"] = false
+        end
+        vim.fn["slime#send_cell"]()
     end
-    vim.fn["slime#send_cell"]()
-  end
 end
 
 --- Send code to terminal with vim-slime
@@ -200,36 +200,36 @@ end
 local slime_send_region_cmd = ":<C-u>call slime#send_op(visualmode(), 1)<CR>"
 slime_send_region_cmd = vim.api.nvim_replace_termcodes(slime_send_region_cmd, true, false, true)
 local function send_region()
-  -- if filetyps is not quarto, just send_region
-  if vim.bo.filetype ~= "quarto" or vim.b["quarto_is_r_mode"] == nil then
-    vim.cmd("normal" .. slime_send_region_cmd)
-    return
-  end
-  if vim.b["quarto_is_r_mode"] == true then
-    vim.g.slime_python_ipython = 0
-    local is_python = require("otter.tools.functions").is_otter_language_context("python")
-    if is_python and not vim.b["reticulate_running"] then
-      vim.fn["slime#send"]("reticulate::repl_python()" .. "\r")
-      vim.b["reticulate_running"] = true
+    -- if filetyps is not quarto, just send_region
+    if vim.bo.filetype ~= "quarto" or vim.b["quarto_is_r_mode"] == nil then
+        vim.cmd("normal" .. slime_send_region_cmd)
+        return
     end
-    if not is_python and vim.b["reticulate_running"] then
-      vim.fn["slime#send"]("exit" .. "\r")
-      vim.b["reticulate_running"] = false
+    if vim.b["quarto_is_r_mode"] == true then
+        vim.g.slime_python_ipython = 0
+        local is_python = require("otter.tools.functions").is_otter_language_context("python")
+        if is_python and not vim.b["reticulate_running"] then
+            vim.fn["slime#send"]("reticulate::repl_python()" .. "\r")
+            vim.b["reticulate_running"] = true
+        end
+        if not is_python and vim.b["reticulate_running"] then
+            vim.fn["slime#send"]("exit" .. "\r")
+            vim.b["reticulate_running"] = false
+        end
+        vim.cmd("normal" .. slime_send_region_cmd)
     end
-    vim.cmd("normal" .. slime_send_region_cmd)
-  end
 end
 
 local vmap = function(key, effect)
-  vim.keymap.set("v", key, effect, { silent = true, noremap = true })
+    vim.keymap.set("v", key, effect, { silent = true, noremap = true })
 end
 
 local imap = function(key, effect)
-  vim.keymap.set("i", key, effect, { silent = true, noremap = true })
+    vim.keymap.set("i", key, effect, { silent = true, noremap = true })
 end
 
 local cmap = function(key, effect)
-  vim.keymap.set("c", key, effect, { silent = true, noremap = true })
+    vim.keymap.set("c", key, effect, { silent = true, noremap = true })
 end
 
 -- send code with ctrl+Enter
@@ -243,179 +243,179 @@ imap("<c-cr>", send_cell)
 imap("<s-cr>", send_cell)
 
 local is_code_chunk = function()
-  local current, _ = require("otter.keeper").get_current_language_context()
-  if current then
-    return true
-  else
-    return false
-  end
+    local current, _ = require("otter.keeper").get_current_language_context()
+    if current then
+        return true
+    else
+        return false
+    end
 end
 
 --- Insert code chunk of given language
 --- Splits current chunk if already within a chunk
 --- @param lang string
 local insert_code_chunk = function(lang)
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "n", true)
-  local keys
-  if is_code_chunk() then
-    keys = [[o```<cr><cr>```{]] .. lang .. [[}<esc>o]]
-  else
-    keys = [[o```{]] .. lang .. [[}<cr>```<esc>O]]
-  end
-  keys = vim.api.nvim_replace_termcodes(keys, true, false, true)
-  vim.api.nvim_feedkeys(keys, "n", false)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "n", true)
+    local keys
+    if is_code_chunk() then
+        keys = [[o```<cr><cr>```{]] .. lang .. [[}<esc>o]]
+    else
+        keys = [[o```{]] .. lang .. [[}<cr>```<esc>O]]
+    end
+    keys = vim.api.nvim_replace_termcodes(keys, true, false, true)
+    vim.api.nvim_feedkeys(keys, "n", false)
 end
 
 local insert_r_chunk = function()
-  insert_code_chunk("r")
+    insert_code_chunk("r")
 end
 
 local insert_py_chunk = function()
-  insert_code_chunk("python")
+    insert_code_chunk("python")
 end
 
 -- normal mode
 wk.add({
-  { "<c-LeftMouse>", "<cmd>lua vim.lsp.buf.definition()<CR>", desc = "go to definition" },
-  { "<c-q>",         "<cmd>q<cr>",                            desc = "close buffer" },
-  { "<cm-i>",        insert_py_chunk,                         desc = "python code chunk" },
-  { "<m-I>",         insert_py_chunk,                         desc = "python code chunk" },
-  { "<m-i>",         insert_r_chunk,                          desc = "r code chunk" },
+    { "<c-LeftMouse>", "<cmd>lua vim.lsp.buf.definition()<CR>", desc = "go to definition" },
+    { "<c-q>",         "<cmd>q<cr>",                            desc = "close buffer" },
+    { "<cm-i>",        insert_py_chunk,                         desc = "python code chunk" },
+    { "<m-I>",         insert_py_chunk,                         desc = "python code chunk" },
+    { "<m-i>",         insert_r_chunk,                          desc = "r code chunk" },
 }, { mode = "n", silent = true })
 
 -- visual mode
 wk.add({
-  {
-    mode = { "v" },
-    { "<cr>", send_region, desc = "run code region" },
-  },
+    {
+        mode = { "v" },
+        { "<cr>", send_region, desc = "run code region" },
+    },
 })
 
 -- insert mode
 wk.add({
-  {
-    mode = { "i" },
-    { "<cm-i>", insert_py_chunk, desc = "python code chunk" },
-    { "<C-->",  " <- ",          desc = "assign" },
-    { "<m-I>",  insert_py_chunk, desc = "python code chunk" },
-    { "<m-i>",  insert_r_chunk,  desc = "r code chunk" },
-  },
+    {
+        mode = { "i" },
+        { "<cm-i>", insert_py_chunk, desc = "python code chunk" },
+        { "<C-->",  " <- ",          desc = "assign" },
+        { "<m-I>",  insert_py_chunk, desc = "python code chunk" },
+        { "<m-i>",  insert_r_chunk,  desc = "r code chunk" },
+    },
 }, { mode = "i" })
 
 local function new_terminal(lang)
-  vim.cmd("vsplit term://" .. lang)
+    vim.cmd("vsplit term://" .. lang)
 end
 
 local function new_terminal_python()
-  new_terminal("python")
+    new_terminal("python")
 end
 
 local function new_terminal_r()
-  new_terminal("R --no-save")
+    new_terminal("R --no-save")
 end
 
 local function new_terminal_ipython()
-  new_terminal("ipython --no-confirm-exit")
+    new_terminal("ipython --no-confirm-exit")
 end
 
 local function new_terminal_julia()
-  new_terminal("julia")
+    new_terminal("julia")
 end
 
 local function new_terminal_shell()
-  new_terminal("$SHELL")
+    new_terminal("$SHELL")
 end
 
 local function get_otter_symbols_lang()
-  local otterkeeper = require("otter.keeper")
-  local main_nr = vim.api.nvim_get_current_buf()
-  local langs = {}
-  for i, l in ipairs(otterkeeper.rafts[main_nr].languages) do
-    langs[i] = i .. ": " .. l
-  end
-  -- promt to choose one of langs
-  local i = vim.fn.inputlist(langs)
-  local lang = otterkeeper.rafts[main_nr].languages[i]
-  local params = {
-    textDocument = vim.lsp.util.make_text_document_params(),
-    otter = {
-      lang = lang,
-    },
-  }
-  -- don't pass a handler, as we want otter to use it's own handlers
-  vim.lsp.buf_request(main_nr, ms.textDocument_documentSymbol, params, nil)
+    local otterkeeper = require("otter.keeper")
+    local main_nr = vim.api.nvim_get_current_buf()
+    local langs = {}
+    for i, l in ipairs(otterkeeper.rafts[main_nr].languages) do
+        langs[i] = i .. ": " .. l
+    end
+    -- promt to choose one of langs
+    local i = vim.fn.inputlist(langs)
+    local lang = otterkeeper.rafts[main_nr].languages[i]
+    local params = {
+        textDocument = vim.lsp.util.make_text_document_params(),
+        otter = {
+            lang = lang,
+        },
+    }
+    -- don't pass a handler, as we want otter to use it's own handlers
+    vim.lsp.buf_request(main_nr, ms.textDocument_documentSymbol, params, nil)
 end
 vim.keymap.set("n", "<leader>os", get_otter_symbols_lang, { desc = "otter [s]ymbols" })
 
 -- normal mode with <leader>
 wk.add({
-  {
-    { "<leader><cr>",     send_cell,                          desc = "run code cell" },
-    { "<leader>c",        group = "[c]ode / [c]ell / [c]hunk" },
-    { "<leader>ci",       new_terminal_ipython,               desc = "new [i]python terminal" },
-    { "<leader>cj",       new_terminal_julia,                 desc = "new [j]ulia terminal" },
-    { "<leader>cn",       new_terminal_shell,                 desc = "[n]ew terminal with shell" },
-    { "<leader>cp",       new_terminal_python,                desc = "new [p]ython terminal" },
-    { "<leader>cr",       new_terminal_r,                     desc = "new [R] terminal" },
-    { "<leader>d",        group = "[d]ebug" },
-    { "<leader>dt",       group = "[t]est" },
-    { "<leader>e",        group = "[e]dit" },
-    { "<leader>f<space>", "<cmd>Telescope buffers<cr>",       desc = "[ ] buffers" },
-    { "<leader>fc",       "<cmd>Telescope git_commits<cr>",   desc = "git [c]ommits" },
-    { "<leader>fj",       "<cmd>Telescope jumplist<cr>",      desc = "[j]umplist" },
-    { "<leader>fl",       "<cmd>Telescope loclist<cr>",       desc = "[l]oclist" },
-    { "<leader>fm",       "<cmd>Telescope marks<cr>",         desc = "[m]arks" },
-    { "<leader>fq",       "<cmd>Telescope quickfix<cr>",      desc = "[q]uickfix" },
-    { "<leader>g",        group = "[g]it" },
-    { "<leader>gb",       group = "[b]lame" },
-    { "<leader>gd",       group = "[d]iff" },
-    { "<leader>gdc",      ":DiffviewClose<cr>",               desc = "[c]lose" },
-    { "<leader>gdo",      ":DiffviewOpen<cr>",                desc = "[o]pen" },
-    { "<leader>gs",       ":Gitsigns<cr>",                    desc = "git [s]igns" },
-    { "<leader>i",        group = "[i]mage" },
-    { "<leader>l",        group = "[l]anguage/lsp" },
-    { "<leader>ld",       group = "[d]iagnostics" },
     {
-      "<leader>ldd",
-      function()
-        vim.diagnostic.enable(false)
-      end,
-      desc = "[d]isable",
+        { "<leader><cr>",     send_cell,                          desc = "run code cell" },
+        { "<leader>c",        group = "[c]ode / [c]ell / [c]hunk" },
+        { "<leader>ci",       new_terminal_ipython,               desc = "new [i]python terminal" },
+        { "<leader>cj",       new_terminal_julia,                 desc = "new [j]ulia terminal" },
+        { "<leader>cn",       new_terminal_shell,                 desc = "[n]ew terminal with shell" },
+        { "<leader>cp",       new_terminal_python,                desc = "new [p]ython terminal" },
+        { "<leader>cr",       new_terminal_r,                     desc = "new [R] terminal" },
+        { "<leader>d",        group = "[d]ebug" },
+        { "<leader>dt",       group = "[t]est" },
+        { "<leader>e",        group = "[e]dit" },
+        { "<leader>f<space>", "<cmd>Telescope buffers<cr>",       desc = "[ ] buffers" },
+        { "<leader>fc",       "<cmd>Telescope git_commits<cr>",   desc = "git [c]ommits" },
+        { "<leader>fj",       "<cmd>Telescope jumplist<cr>",      desc = "[j]umplist" },
+        { "<leader>fl",       "<cmd>Telescope loclist<cr>",       desc = "[l]oclist" },
+        { "<leader>fm",       "<cmd>Telescope marks<cr>",         desc = "[m]arks" },
+        { "<leader>fq",       "<cmd>Telescope quickfix<cr>",      desc = "[q]uickfix" },
+        { "<leader>g",        group = "[g]it" },
+        { "<leader>gb",       group = "[b]lame" },
+        { "<leader>gd",       group = "[d]iff" },
+        { "<leader>gdc",      ":DiffviewClose<cr>",               desc = "[c]lose" },
+        { "<leader>gdo",      ":DiffviewOpen<cr>",                desc = "[o]pen" },
+        { "<leader>gs",       ":Gitsigns<cr>",                    desc = "git [s]igns" },
+        { "<leader>i",        group = "[i]mage" },
+        { "<leader>l",        group = "[l]anguage/lsp" },
+        { "<leader>ld",       group = "[d]iagnostics" },
+        {
+            "<leader>ldd",
+            function()
+                vim.diagnostic.enable(false)
+            end,
+            desc = "[d]isable",
+        },
+        { "<leader>lde", vim.diagnostic.enable,     desc = "[e]nable" },
+        { "<leader>le",  vim.diagnostic.open_float, desc = "diagnostics (show hover [e]rror)" },
+        { "<leader>lg",  ":Neogen<cr>",             desc = "neo[g]en docstring" },
+        { "<leader>o",   group = "[o]tter & c[o]de" },
+        { "<leader>oa",  require("otter").activate, desc = "otter [a]ctivate" },
+        { "<leader>ob",  insert_bash_chunk,         desc = "[b]ash code chunk" },
+        { "<leader>oc",  "O# %%<cr>",               desc = "magic [c]omment code chunk # %%" },
+        { "<leader>od",  require("otter").activate, desc = "otter [d]eactivate" },
+        { "<leader>oj",  insert_julia_chunk,        desc = "[j]ulia code chunk" },
+        { "<leader>ol",  insert_lua_chunk,          desc = "[l]lua code chunk" },
+        { "<leader>oo",  insert_ojs_chunk,          desc = "[o]bservable js code chunk" },
+        { "<leader>op",  insert_py_chunk,           desc = "[p]ython code chunk" },
+        { "<leader>or",  insert_r_chunk,            desc = "[r] code chunk" },
+        { "<leader>q",   group = "[q]uarto" },
+        {
+            "<leader>qE",
+            function()
+                require("otter").export(true)
+            end,
+            desc = "[E]xport with overwrite",
+        },
+        { "<leader>qa",  ":QuartoActivate<cr>",                           desc = "[a]ctivate" },
+        { "<leader>qe",  require("otter").export,                         desc = "[e]xport" },
+        { "<leader>qh",  ":QuartoHelp ",                                  desc = "[h]elp" },
+        { "<leader>qp",  ":lua require'quarto'.quartoPreview()<cr>",      desc = "[p]review" },
+        { "<leader>qq",  ":lua require'quarto'.quartoClosePreview()<cr>", desc = "[q]uiet preview" },
+        { "<leader>qr",  group = "[r]un" },
+        { "<leader>qra", ":QuartoSendAll<cr>",                            desc = "run [a]ll" },
+        { "<leader>qrb", ":QuartoSendBelow<cr>",                          desc = "run [b]elow" },
+        { "<leader>qrr", ":QuartoSendAbove<cr>",                          desc = "to cu[r]sor" },
+        { "<leader>r",   group = "[r] R specific tools" },
+        { "<leader>rt",  show_r_table,                                    desc = "show [t]able" },
+        { "<leader>v",   group = "[v]im" },
+        { "<leader>vh",  ':execute "h " . expand("<cword>")<cr>',         desc = "vim [h]elp for current word" },
+        { "<leader>vl",  ":Lazy<cr>",                                     desc = "[l]azy package manager" },
     },
-    { "<leader>lde", vim.diagnostic.enable,     desc = "[e]nable" },
-    { "<leader>le",  vim.diagnostic.open_float, desc = "diagnostics (show hover [e]rror)" },
-    { "<leader>lg",  ":Neogen<cr>",             desc = "neo[g]en docstring" },
-    { "<leader>o",   group = "[o]tter & c[o]de" },
-    { "<leader>oa",  require("otter").activate, desc = "otter [a]ctivate" },
-    { "<leader>ob",  insert_bash_chunk,         desc = "[b]ash code chunk" },
-    { "<leader>oc",  "O# %%<cr>",               desc = "magic [c]omment code chunk # %%" },
-    { "<leader>od",  require("otter").activate, desc = "otter [d]eactivate" },
-    { "<leader>oj",  insert_julia_chunk,        desc = "[j]ulia code chunk" },
-    { "<leader>ol",  insert_lua_chunk,          desc = "[l]lua code chunk" },
-    { "<leader>oo",  insert_ojs_chunk,          desc = "[o]bservable js code chunk" },
-    { "<leader>op",  insert_py_chunk,           desc = "[p]ython code chunk" },
-    { "<leader>or",  insert_r_chunk,            desc = "[r] code chunk" },
-    { "<leader>q",   group = "[q]uarto" },
-    {
-      "<leader>qE",
-      function()
-        require("otter").export(true)
-      end,
-      desc = "[E]xport with overwrite",
-    },
-    { "<leader>qa",  ":QuartoActivate<cr>",                           desc = "[a]ctivate" },
-    { "<leader>qe",  require("otter").export,                         desc = "[e]xport" },
-    { "<leader>qh",  ":QuartoHelp ",                                  desc = "[h]elp" },
-    { "<leader>qp",  ":lua require'quarto'.quartoPreview()<cr>",      desc = "[p]review" },
-    { "<leader>qq",  ":lua require'quarto'.quartoClosePreview()<cr>", desc = "[q]uiet preview" },
-    { "<leader>qr",  group = "[r]un" },
-    { "<leader>qra", ":QuartoSendAll<cr>",                            desc = "run [a]ll" },
-    { "<leader>qrb", ":QuartoSendBelow<cr>",                          desc = "run [b]elow" },
-    { "<leader>qrr", ":QuartoSendAbove<cr>",                          desc = "to cu[r]sor" },
-    { "<leader>r",   group = "[r] R specific tools" },
-    { "<leader>rt",  show_r_table,                                    desc = "show [t]able" },
-    { "<leader>v",   group = "[v]im" },
-    { "<leader>vh",  ':execute "h " . expand("<cword>")<cr>',         desc = "vim [h]elp for current word" },
-    { "<leader>vl",  ":Lazy<cr>",                                     desc = "[l]azy package manager" },
-  },
 }, { mode = "n" })
