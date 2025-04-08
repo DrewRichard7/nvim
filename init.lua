@@ -22,6 +22,13 @@ require("config.lazy")
 local wk = require("which-key")
 local ms = vim.lsp.protocol.Methods
 
+
+-- makes neovim transparent to have the terminal's background
+vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
+vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
+vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'none' })
+vim.api.nvim_set_hl(0, 'Pmenu', { bg = 'none' })
+
 -- sets the color of floating window borders
 vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#00DD96", bg = "NONE" })
 -- another good option: "#A5DCFF"
@@ -65,8 +72,8 @@ vim.g.moonflyNormalFloat = true
 vim.keymap.set("i", "jk", "<ESC>", { desc = "exit insert mode with jk" })
 
 -- center cursor on scroll
--- vim.keymap.set({ "n", "v" }, "j", "jzz", { desc = "center cursor on vertical scroll" })
--- vim.keymap.set({ "n", "v" }, "k", "kzz", { desc = "center cursor on vertical scroll" })
+vim.keymap.set({ "n", "v" }, "j", "jzz", { desc = "center cursor on vertical scroll" })
+vim.keymap.set({ "n", "v" }, "k", "kzz", { desc = "center cursor on vertical scroll" })
 
 -- center cursor on half page scroll
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "center cursor on half page scroll" })
@@ -78,6 +85,10 @@ vim.keymap.set("n", "<leader>O", "O<ESC>", { desc = "new line over cursor" })
 
 -- source current file
 vim.keymap.set("n", "<space><space>x", "<cmd>source %<CR>", { desc = "source current file" })
+
+-- source neovim init.lua
+vim.keymap.set("n", "<space><space>c", "<cmd>source ~/.config/nvim/init.lua<CR>",
+    { desc = "source file: neovim init.lua" })
 
 -- source current line and selected lines
 vim.keymap.set("n", "<space>x", ":.lua<CR>", { desc = "execute current line" })
