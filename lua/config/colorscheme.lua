@@ -1,8 +1,8 @@
 return {
   {
     "folke/tokyonight.nvim",
-    enabled = true,
-    priority = 1000,     -- make sure to load this before all the other start plugins
+    enabled = false,
+    priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
       -- local bg = "#011628"
       -- local bg_dark = "#011423"
@@ -36,14 +36,16 @@ return {
       })
       -- load the colorscheme here
       vim.cmd([[colorscheme tokyonight]])
+      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#00DD96", bg = "NONE" })
+      vim.api.nvim_set_hl(0, "LspInfoBorder", { link = "FloatBorder" })
     end,
   },
   {
     'catppuccin/nvim',
     name = 'catppuccin',
     enabled = false,
-    lazy = false,        -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000,     -- make sure to load this before all the other start plugins
+    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
       -- set colorscheme and overwrite highlights
       vim.cmd.colorscheme 'catppuccin-mocha'
@@ -123,15 +125,15 @@ return {
       name = "rose-pine",
       config = function()
         require("rose-pine").setup({
-          variant = "auto",                -- auto, main, moon, or dawn
-          dark_variant = "main",           -- main, moon, or dawn
+          variant = "auto",      -- auto, main, moon, or dawn
+          dark_variant = "main", -- main, moon, or dawn
           dim_inactive_windows = false,
           extend_background_behind_borders = true,
 
           enable = {
             terminal = true,
-            legacy_highlights = true,             -- Improve compatibility for previous versions of Neovim
-            migrations = true,                    -- Handle deprecated options automatically
+            legacy_highlights = true, -- Improve compatibility for previous versions of Neovim
+            migrations = true,        -- Handle deprecated options automatically
           },
 
           styles = {
@@ -173,21 +175,21 @@ return {
 
           palette = {
             main = {
-              base = '#000000',               -- Set background to pure black
+              base = '#000000', -- Set background to pure black
             },
             moon = {
-              base = '#000000',               -- Set background to pure black
+              base = '#000000', -- Set background to pure black
             },
             dawn = {
-              base = '#000000',               -- Set background to pure black
+              base = '#000000', -- Set background to pure black
             },
           },
 
           -- NOTE: Highlight groups are extended (merged) by default. Disable this
           -- per group via `inherit = false`
           highlight_groups = {
-            Normal = { bg = "#000000" },                  -- Set background to pure black
-            NormalFloat = { bg = "#000000" },             -- Set floating window background to pure black
+            Normal = { bg = "#000000" },      -- Set background to pure black
+            NormalFloat = { bg = "#000000" }, -- Set floating window background to pure black
             Visual = { bg = "#ffffff", fg = "#ffffff", bold = true },
           },
 
@@ -221,12 +223,12 @@ return {
   {
     {
       'rebelot/kanagawa.nvim',
-      enabled = false,
-      lazy = false,          -- Or false if you load it immediately
-      priority = 1000,       -- Load early
+      enabled = true,
+      lazy = false,    -- Or false if you load it immediately
+      priority = 1000, -- Load early
       config = function()
         require('kanagawa').setup({
-          compile = false,           -- Enable this if you encounter slowness (requires :KanagawaCompile)
+          compile = false, -- Enable this if you encounter slowness (requires :KanagawaCompile)
           undercurl = true,
           -- Corrected keys to camelCase below:
           commentStyle = { italic = true },
@@ -234,20 +236,20 @@ return {
           keywordStyle = { italic = true },
           statementStyle = { bold = true },
           typeStyle = {},
-          transparent = false,             -- Explicitly set background to non-transparent
-          dimInactive = false,             -- Corrected key
-          terminalColors = true,           -- Corrected key
-          theme = "wave",                  -- Or "dragon", "lotus" - choose your preferred variant
-          background = {                   -- Force dark theme regardless of vim.o.background
-            dark = "wave",                 -- Match the theme name above
-            light = "lotus",               -- Fallback for light mode (won't be used if dark is forced)
+          transparent = true,    -- Explicitly set background to non-transparent
+          dimInactive = false,   -- Corrected key
+          terminalColors = true, -- Corrected key
+          theme = "wave",        -- Or "dragon", "lotus" - choose your preferred variant
+          background = {         -- Force dark theme regardless of vim.o.background
+            dark = "wave",       -- Match the theme name above
+            light = "lotus",     -- Fallback for light mode (won't be used if dark is forced)
           },
-          colors = {                       -- Keep your gutter setting
-            palette = {},                  -- We use overrides below, so keep this empty or remove
+          colors = {             -- Keep your gutter setting
+            palette = {},        -- We use overrides below, so keep this empty or remove
             theme = {
               all = {
                 ui = {
-                  bg_gutter = "none"                   -- Make gutter transparent to use Normal bg
+                  bg_gutter = "none" -- Make gutter transparent to use Normal bg
                 }
               }
             }
@@ -256,25 +258,29 @@ return {
             -- The 'colors' argument contains the calculated palette for the theme
             return {
               -- === Core Backgrounds ===
-              Normal = { bg = "#000000" },
-              NormalNC = { bg = "#000000" },
-              NormalFloat = { bg = "#000000" },
-              FloatBorder = { bg = "#000000" },
+              -- Normal = { bg = "#000000" },
+              -- NormalNC = { bg = "#000000" },
+              -- NormalFloat = { bg = "#000000" },
+              -- FloatBorder = { bg = "#000000" },
+
+              Visual = {
+                bg = "#87ceeb"
+              }
 
               -- === UI Elements ===
-              StatusLine = { bg = "#000000" },
-              StatusLineNC = { bg = "#000000" },
-              TabLineFill = { bg = "#000000" },
-              WinSeparator = { bg = "#000000", fg = colors.palette.sumiInk4 },
-              MsgArea = { bg = "#000000" },
+              -- StatusLine = { bg = "#000000" },
+              -- StatusLineNC = { bg = "#000000" },
+              -- TabLineFill = { bg = "#000000" },
+              -- WinSeparator = { bg = "#000000", fg = colors.palette.sumiInk4 },
+              -- MsgArea = { bg = "#000000" },
 
               -- === Side Columns ===
-              SignColumn = { bg = "#000000" },
-              LineNr = { bg = "#000000" },
-              FoldColumn = { bg = "#000000" },
+              -- SignColumn = { bg = "#000000" },
+              -- LineNr = { bg = "#000000" },
+              -- FoldColumn = { bg = "#000000" },
 
               -- === Other ===
-              EndOfBuffer = { fg = "#000000" },
+              -- EndOfBuffer = { fg = "#000000" },
 
               -- Example:
               -- Pmenu = { bg = "#000000" },
@@ -329,22 +335,22 @@ return {
     opts = {
       filetypes = { '*' },
       user_default_options = {
-        RGB = true,                  -- #RGB hex codes
-        RRGGBB = true,               -- #RRGGBB hex codes
-        names = true,                -- "Name" codes like Blue or blue
-        RRGGBBAA = true,             -- #RRGGBBAA hex codes
-        AARRGGBB = true,             -- 0xAARRGGBB hex codes
-        rgb_fn = false,              -- CSS rgb() and rgba() functions
-        hsl_fn = false,              -- CSS hsl() and hsla() functions
-        css = false,                 -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-        css_fn = false,              -- Enable all CSS *functions*: rgb_fn, hsl_fn
+        RGB = true,          -- #RGB hex codes
+        RRGGBB = true,       -- #RRGGBB hex codes
+        names = true,        -- "Name" codes like Blue or blue
+        RRGGBBAA = true,     -- #RRGGBBAA hex codes
+        AARRGGBB = true,     -- 0xAARRGGBB hex codes
+        rgb_fn = false,      -- CSS rgb() and rgba() functions
+        hsl_fn = false,      -- CSS hsl() and hsla() functions
+        css = false,         -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+        css_fn = false,      -- Enable all CSS *functions*: rgb_fn, hsl_fn
         -- Available modes for `mode`: foreground, background,  virtualtext
-        mode = 'background',         -- Set the display mode.
+        mode = 'background', -- Set the display mode.
         -- Available methods are false / true / "normal" / "lsp" / "both"
         -- True is same as normal
-        tailwind = false,                                       -- Enable tailwind colors
+        tailwind = false,                               -- Enable tailwind colors
         -- parsers can contain values used in |user_default_options|
-        sass = { enable = false, parsers = { 'css' } },         -- Enable sass colors
+        sass = { enable = false, parsers = { 'css' } }, -- Enable sass colors
         virtualtext = '■',
         -- update color values even if buffer is not focused
         -- example use: cmp_menu, cmp_docs

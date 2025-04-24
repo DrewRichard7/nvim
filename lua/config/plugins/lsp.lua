@@ -221,6 +221,9 @@ return {
           end
         end,
       })
+
+      vim.keymap.set({ "n", "v" }, '<leader>lf', vim.lsp.buf.format, { desc = '[l]sp [f]ormat' })
+
       -- Set up Mason
       require("mason").setup({
         ui = {
@@ -269,6 +272,12 @@ return {
       vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
         border = "rounded",
         max_width = 80,
+      })
+      vim.diagnostic.config({
+        float = {
+          border = "rounded", -- Or your preferred style
+          -- source = "always",
+        },
       })
     end
   },
