@@ -30,6 +30,7 @@ return {
             enabled = true,
             only_render_image_at_cursor = true,
             -- only_render_image_at_cursor_mode = "popup",
+            floating_windows = true,
             filetypes = { 'markdown', 'vimwiki', 'quarto' },
           },
         },

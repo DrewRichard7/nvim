@@ -67,7 +67,9 @@ vim.opt.clipboard:append("unnamedplus") -- use system clipboard
 -- Lua initialization file
 vim.g.moonflyNormalFloat = true
 
-
+-- split right and below by default
+vim.opt.splitright = true
+vim.opt.splitbelow = true
 
 -- Add paths for user-installed luarocks (Lua 5.1)
 local user_lua_path =
@@ -153,6 +155,10 @@ vim.keymap.set('n', '<leader>tp', '<cmd>tabp<CR>', { desc = 'Go to previous tab'
 vim.keymap.set('n', '<leader>tf', '<cmd>tabnew %<CR>', { desc = 'Open current buffer in new tab' }) --  move current buffer to new tab
 
 
+-- set local buffer wrapped text
+vim.keymap.set('n', '<leader>wp', '<cmd>setlocal wrap<CR>', { desc = '[w]ra[p] text enabled' })
+
+
 local nmap = function(key, effect)
   vim.keymap.set("n", key, effect, { silent = true, noremap = true })
 end
@@ -190,6 +196,16 @@ vim.api.nvim_create_autocmd("TermOpen", {
     vim.wo.number = false
   end,
 })
+
+-- Set conceal level for markdown files
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "quarto" },
+  callback = function()
+    vim.opt_local.conceallevel = 2
+    vim.opt_local.concealcursor = "nc" -- conceal everywhere except in normal & command-line mode
+  end,
+})
+
 
 -- below are some quarto specific commands and functions
 -- -----------------------------------------------------------------

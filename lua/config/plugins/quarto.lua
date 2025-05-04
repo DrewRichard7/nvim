@@ -136,16 +136,23 @@ return {
 
   { -- preview equations
     'jbyuki/nabla.nvim',
+    config = function()
+      require("nvim-treesitter.configs").setup({
+        ensure_installed = { "latex" },
+        auto_install = true,
+        sync_install = false,
+      })
+    end,
     keys = {
-      { '<leader>qm', ':lua require"nabla".toggle_virt()<cr>', desc = 'toggle [m]ath equations' },
+      { '<leader>qm', ':lua require"nabla".toggle_virt()<cr>', { desc = 'toggle [m]ath equations' } },
+      { "<leader>p",  ':lua require("nabla").popup()<cr>',     { desc = "NablaPopUp" }, },
     },
   },
 
   {
     'benlubas/molten-nvim',
-    enabled = false,
-    version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
-    dependencies = { "3rd/image.nvim" },
+    enabled = true,
+    dependencies = { '3rd/image.nvim' },
     build = ':UpdateRemotePlugins',
     init = function()
       vim.g.molten_image_provider = 'image.nvim'
@@ -153,9 +160,16 @@ return {
       vim.g.molten_auto_open_output = false
     end,
     keys = {
-      { '<leader>mi', ':MoltenInit<cr>',                desc = '[m]olten [i]nit' },
-      { '<leader>mv', ':<C-u>MoltenEvaluateVisual<cr>', mode = 'v',                  desc = 'molten eval visual', },
-      { '<leader>mr', ':MoltenReevaluateCell<cr>',      desc = 'molten re-eval cell' },
+      vim.keymap.set("n", "<localleader>mi", ":MoltenInit<CR>",
+        { silent = true, desc = "Initialize the plugin" }),
+      vim.keymap.set("n", "<localleader>e", ":MoltenEvaluateOperator<CR>",
+        { silent = true, desc = "run operator selection" }),
+      vim.keymap.set("n", "<localleader>rl", ":MoltenEvaluateLine<CR>",
+        { silent = true, desc = "evaluate line" }),
+      vim.keymap.set("n", "<localleader>rr", ":MoltenReevaluateCell<CR>",
+        { silent = true, desc = "re-evaluate cell" }),
+      vim.keymap.set("v", "<localleader>r", ":<C-u>MoltenEvaluateVisual<CR>gv",
+        { silent = true, desc = "evaluate visual selection" })
     },
   },
 }
